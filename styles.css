@@ -1,0 +1,223 @@
+/* CSS Reset */
+
+/* Box sizing rules */
+*, *::after, *::before { box-sizing: border-box }
+
+/* Remove default padding */
+ul, ol { padding: 0 }
+
+/* Remove default margin */
+body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure,
+figcaption, blockquote, dl, dd, pre { margin: 0 }
+
+/* Make body (and app) like in html 4 */
+body, html, #app { height: 100% }
+
+/* Make images easier to work with */
+img { max-width: 100%; display: block; }
+
+/* Why does canvas even have focus?.. */
+canvas:focus { outline: none }
+
+/* Inherit fonts for inputs and buttons */
+input, button, textarea, select, .button {
+  font: inherit;
+  color: inherit;
+  min-width: 0;
+}
+
+/* Lighten up the default tabindex outline */
+*:focus { outline-color: rgba(0,0,0,0.2) }
+
+
+body {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+body > main {
+  flex: 1;
+}
+
+
+/* ========================== Header ========================== */
+
+header {
+  color: #CCCCCC;
+  background-color: #1F1F1F;
+  box-shadow:
+    rgba(0, 0, 0, 0.2) 0px 2px 4px -1px,
+    rgba(0, 0, 0, 0.14) 0px 4px 5px 0px,
+    rgba(0, 0, 0, 0.12) 0px 1px 10px 0px;
+}
+
+header .menu-item {
+  border-bottom: 2px solid transparent;
+}
+header .menu-item:hover, header .menu-item:active {
+  color: #569CD6;
+  border-bottom: 2px solid #569CD6;
+}
+header .menu-item.active {
+  color: #73C991;
+  border-bottom: 2px solid #73C991;
+}
+
+.header-content {
+  display: flex;
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.header-center {
+  margin: 0.1rem 1rem 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.header-logo {
+  display: flex;
+}
+
+.header-logo img {
+  height: 6rem;
+}
+
+.header-info {
+  color: #CE9178;
+  font-size: smaller;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.header-title {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+}
+
+.header-menu {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.header-menu > * {
+  text-decoration: none;
+  padding: 0 0.5rem;
+  color: inherit;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.header-slogan {
+  text-align: center;
+  margin-bottom: 0.5em;
+}
+
+@media (max-width: 800px) {
+  .header-title { font-size: 1.4rem; }
+}
+
+@media (max-width: 660px) {
+  .header-info { display: none; }
+}
+
+@media (max-width: 480px) {
+  html, body, .markdown-body {
+    font-size: 14px;
+  }
+  .header-center { margin: 0.1rem 0.3rem 0; }
+  .header-logo img { height: 4rem; }
+  .header-slogan { font-size: 0.8rem; margin-bottom: 0.2em; }
+}
+
+@media (max-width: 400px) {
+  .header-title { font-size: 1.2rem; }
+}
+
+
+/* ========================== footer ========================== */
+
+
+footer {
+  color: #CCCCCC;
+  background-color: #1F1F1F;
+  box-shadow:
+    rgba(0, 0, 0, 0.2) 0px 2px 4px -1px,
+    rgba(0, 0, 0, 0.14) 0px 4px 5px 0px,
+    rgba(0, 0, 0, 0.12) 0px 1px 10px 0px;
+  text-align: center;
+  font-size: small;
+  padding: 0.2rem 0;
+}
+
+/* ========================== github and lightbox shit ========================== */
+
+main {
+  padding: 1rem;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  overflow: hidden;
+  padding: 0 1rem;
+  background: #fff;
+}
+
+.container > * {
+  margin-bottom: 1rem;
+}
+
+#app {
+  min-width: 200px;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 45px;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+}
+@media (max-width: 768px) {
+  #app {
+    padding: 15px;
+  }
+}
+#lightbox {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  display: table;
+  background: rgba(0,0,0,0.9);
+}
+#lightbox > p {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+#lightbox > p > img {
+  max-width: 100%;
+  max-height: 100vh;
+  margin: 0 auto;
+}
