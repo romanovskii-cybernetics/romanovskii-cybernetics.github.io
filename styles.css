@@ -51,7 +51,7 @@ body > main {
 
 header {
   color: #CCCCCC;
-  background-color: #1F1F1F;
+  backdrop-filter: blur(10px);
   box-shadow:
     rgba(0, 0, 0, 0.2) 0px 2px 4px -1px,
     rgba(0, 0, 0, 0.14) 0px 4px 5px 0px,
@@ -89,7 +89,7 @@ header .menu-item.active {
 }
 
 .header-logo img {
-  height: 6rem;
+  height: 6.5rem;
 }
 
 .header-info {
@@ -147,7 +147,7 @@ header .menu-item.active {
     font-size: 14px;
   }
   .header-center { margin: 0.1rem 0.3rem 0; }
-  .header-logo img { height: 4rem; }
+  .header-logo img { height: 4.3rem; }
   .header-slogan { font-size: 0.8rem; margin-bottom: 0.2em; }
 }
 
@@ -182,7 +182,7 @@ main {
   margin: auto;
   overflow: hidden;
   padding: 0 1rem;
-  background: #fff;
+  background: #fffe;
 }
 
 .container > * {
@@ -220,4 +220,11 @@ main {
   max-width: 100%;
   max-height: 100vh;
   margin: 0 auto;
+}
+
+#bg-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
 }
