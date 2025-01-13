@@ -2,6 +2,7 @@
 
 const app = document.querySelector('#app')
 const header = document.querySelector('header')
+const debugInfo = document.querySelector('.debug-info')
 const lightbox = document.querySelector('#lightbox')
 const lightboxImg = document.createElement('img')
 lightbox.querySelector('p').appendChild(lightboxImg);
@@ -56,8 +57,11 @@ document.querySelectorAll('nav > *').forEach(a => {
 const bgCanvas = document.querySelector('canvas#bg-canvas')
 const bgContext = bgCanvas.getContext('2d')
 
-const wWidth = () => window.visualViewport?.width || window.innerWidth
-const wHeight = () => window.visualViewport?.height || window.innerHeight
+const wScale = () => window.devicePixelRatio || 1
+const wWidth = () => Math.ceil(window.innerWidth * wScale())
+const wHeight = () => Math.ceil(window.innerHeight * wScale())
+
+const cScale = (value = 1) => Math.ceil(value / (window.devicePixelRatio || 1))
 
 /**
  * @param {CanvasRenderingContext2D} ctx 
@@ -72,9 +76,9 @@ const beginBgAnimation = (ctx, canv) => {
     i: -1,
   }
 
-  const populatePoints = () => [...new Array(Math.max(Math.ceil(wWidth() * wHeight() / 10000), 10)).fill({}).map((v,i) => ({
-    x: Math.random() * canv.width,
-    y: Math.random() * canv.height,
+  const populatePoints = () => [...new Array(Math.max(Math.ceil(cScale(wWidth()) * cScale(wHeight()) / 10000), 10)).fill({}).map((v,i) => ({
+    x: Math.random() * cScale(canv.width),
+    y: Math.random() * cScale(canv.height),
     dx: (Math.random() * 1 + 0.1) * (Math.random() > 0.5 ? 1 : -1),
     dy: (Math.random() * 1 + 0.1) * (Math.random() > 0.5 ? 1 : -1),
     connectedPoints: i % 10 === 0 ? [] : undefined,
@@ -85,6 +89,7 @@ const beginBgAnimation = (ctx, canv) => {
   const onWindowResize = () => {
     canv.width = wWidth()
     canv.height = wHeight()
+    ctx.scale(wScale(), wScale())
     points = populatePoints()
   }
 
@@ -102,11 +107,11 @@ const beginBgAnimation = (ctx, canv) => {
    */
   const bgAnimate = (ctx, canv) => {
 
-    ctx.clearRect(0, 0, canv.width, canv.height)
+    ctx.clearRect(0, 0, cScale(canv.width), cScale(canv.height))
 
     const darkLineHeight = header.getBoundingClientRect().bottom
     ctx.fillStyle = '#1F1F1F'
-    ctx.fillRect(0, 0, canv.width, darkLineHeight)
+    ctx.fillRect(0, 0, cScale(canv.width), darkLineHeight)
 
     mouse.connectedPoints = []
 
@@ -118,16 +123,16 @@ const beginBgAnimation = (ctx, canv) => {
       if (p.x < 0) {
         p.x = 0
         p.dx = -p.dx
-      } else if (p.x > canv.width) {
-        p.x = canv.width
+      } else if (p.x > cScale(canv.width)) {
+        p.x = cScale(canv.width)
         p.dx = -p.dx
       }
 
       if (p.y < 0) {
         p.y = 0
         p.dy = -p.dy
-      } else if (p.y > canv.height) {
-        p.y = canv.height
+      } else if (p.y > cScale(canv.height)) {
+        p.y = cScale(canv.height)
         p.dy = -p.dy
       }
 
