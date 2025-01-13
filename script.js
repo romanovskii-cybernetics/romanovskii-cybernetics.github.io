@@ -140,6 +140,7 @@ const beginBgAnimation = (ctx, canv) => {
     points.filter(p => p.connectedPoints).forEach(point => {
       if (point.mouse && !point.x && !point.y) return
       points.forEach(p => {
+        if (p.mouse && !p.x && !p.y) return
         //if (Math.sqrt(Math.pow(p.x - mouse.x, 2) + Math.pow(p.y - mouse.y, 2)) < 200) {
         if (p !== point && Math.abs(p.x - point.x) < 150 && Math.abs(p.y - point.y) < 150 /*&& point.connectedPoints.length < 4*/) {
           point.connectedPoints.push(p)
