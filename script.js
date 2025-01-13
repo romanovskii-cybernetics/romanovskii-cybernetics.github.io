@@ -56,7 +56,8 @@ document.querySelectorAll('nav > *').forEach(a => {
 const bgCanvas = document.querySelector('canvas#bg-canvas')
 const bgContext = bgCanvas.getContext('2d')
 
-
+const wWidth = () => window.visualViewport?.width || window.innerWidth
+const wHeight = () => window.visualViewport?.height || window.innerHeight
 
 /**
  * @param {CanvasRenderingContext2D} ctx 
@@ -71,7 +72,7 @@ const beginBgAnimation = (ctx, canv) => {
     i: -1,
   }
 
-  const populatePoints = () => [...new Array(Math.max(Math.ceil(window.innerWidth * window.innerHeight / 10000), 10)).fill({}).map((v,i) => ({
+  const populatePoints = () => [...new Array(Math.max(Math.ceil(wWidth() * wHeight() / 10000), 10)).fill({}).map((v,i) => ({
     x: Math.random() * canv.width,
     y: Math.random() * canv.height,
     dx: (Math.random() * 1 + 0.1) * (Math.random() > 0.5 ? 1 : -1),
@@ -82,8 +83,8 @@ const beginBgAnimation = (ctx, canv) => {
   let points
 
   const onWindowResize = () => {
-    canv.width = window.innerWidth
-    canv.height = window.innerHeight
+    canv.width = wWidth()
+    canv.height = wHeight()
     points = populatePoints()
   }
 
