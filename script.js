@@ -84,8 +84,8 @@ const beginBgAnimation = (ctx, canv) => {
   const populatePoints = () => [...new Array(Math.max(Math.ceil(cScale(wWidth()) * cScale(wHeight()) / 10000), 10)).fill({}).map((v,i) => ({
     x: Math.random() * cScale(canv.width),
     y: Math.random() * cScale(canv.height),
-    dx: (Math.random() * 1 + 0.1) * (Math.random() > 0.5 ? 1 : -1),
-    dy: (Math.random() * 1 + 0.1) * (Math.random() > 0.5 ? 1 : -1),
+    dx: (Math.random() * 0.5 + 0.05) * (Math.random() > 0.5 ? 1 : -1),
+    dy: (Math.random() * 0.5 + 0.05) * (Math.random() > 0.5 ? 1 : -1),
     connectedPoints: i % 10 === 0 ? [] : undefined,
     i: i,
   })), mouse]
