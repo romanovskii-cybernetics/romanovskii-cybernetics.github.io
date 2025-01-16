@@ -81,7 +81,7 @@ const beginBgAnimation = (ctx, canv) => {
 
   const pointDist = 200
 
-  const populatePoints = () => [...new Array(Math.max(Math.ceil(cScale(wWidth()) * cScale(wHeight()) / 10000), 10)).fill({}).map((v,i) => ({
+  const populatePoints = () => [...new Array(Math.max(Math.ceil(cScale(wWidth()) * cScale(wHeight()) / 9000), 10)).fill({}).map((v,i) => ({
     x: Math.random() * cScale(canv.width),
     y: Math.random() * cScale(canv.height),
     dx: (Math.random() * 0.5 + 0.05) * (Math.random() > 0.5 ? 1 : -1),
@@ -143,6 +143,11 @@ const beginBgAnimation = (ctx, canv) => {
         p.y = cScale(canv.height)
         p.dy = -p.dy
       }
+  
+      ctx.fillStyle = '#CE9178' + alphaHexInv(p.i / points.length, 1)
+      ctx.beginPath()
+      ctx.arc(p.x, p.y, 3, 0, 2 * Math.PI)
+      ctx.fill()
 
     })
 
@@ -160,7 +165,7 @@ const beginBgAnimation = (ctx, canv) => {
       })
 
       point.connectedPoints.forEach((p, i) => {
-        const color = (p.i % 3 ? '#DCDCAA' : '#CE9178') + (point.distances[i] > (pointDist * 0.9) ? alphaHexInv(point.distances[i], pointDist, (pointDist * 0.9)) : '')
+        const color = (p.i % 2 ? '#DCDCAA' : '#CE9178') + (point.distances[i] > (pointDist * 0.9) ? alphaHexInv(point.distances[i], pointDist, (pointDist * 0.9)) : '')
         ctx.strokeStyle = color
         ctx.fillStyle = color
 
