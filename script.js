@@ -10,7 +10,7 @@ const images = []
 
 const renderMarkdown = text => {
   app.innerHTML = marked.parse(text, { gfm: true, /* breaks: true */ })
-  app.querySelectorAll('img').forEach(img => {
+  app.querySelectorAll('img:not(.lightbox-ignore)').forEach(img => {
 		images.push(img.src)
 		img.addEventListener('click', toggleLightbox)
   })
