@@ -16,7 +16,9 @@ const renderMarkdown = text => {
   })
 }
 
-if (location.search) {
+if (location.search?.slice(1) === 'space') {
+  app.remove()
+} else if (location.search) {
   const pagefile = '/pages/' + (location.search.slice(1) || 'home') + '.md' 
   const xhr = new XMLHttpRequest()
   xhr.open('GET', pagefile)
