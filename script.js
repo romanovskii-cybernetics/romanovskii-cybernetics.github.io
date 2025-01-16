@@ -63,6 +63,9 @@ const wHeight = () => Math.ceil(window.innerHeight * wScale())
 
 const cScale = (value = 1) => Math.ceil(value / (window.devicePixelRatio || 1))
 
+const alphaHex = (val, max = 255, min = 0) => Math.round(255 * Math.max(0, Math.min(1, (val - min) / (max - min)))).toString(16).padStart(2, '0')
+const alphaHexInv = (val, max = 255, min = 0) => (255 - Math.round(255 * Math.max(0, Math.min(1, (val - min) / (max - min))))).toString(16).padStart(2, '0')
+
 /**
  * @param {CanvasRenderingContext2D} ctx 
  * @param {HTMLCanvasElement} canv 
@@ -75,6 +78,8 @@ const beginBgAnimation = (ctx, canv) => {
     mouse: true,
     i: -1,
   }
+
+  const pointDist = 200
 
   const populatePoints = () => [...new Array(Math.max(Math.ceil(cScale(wWidth()) * cScale(wHeight()) / 10000), 10)).fill({}).map((v,i) => ({
     x: Math.random() * cScale(canv.width),
@@ -113,9 +118,12 @@ const beginBgAnimation = (ctx, canv) => {
     ctx.fillStyle = '#1F1F1F'
     ctx.fillRect(0, 0, cScale(canv.width), darkLineHeight)
 
-    mouse.connectedPoints = []
-
     points.forEach(p => {
+      if (p.connectedPoints) {
+        p.connectedPoints = []
+        p.distances = []
+      }
+
       if (p.mouse) return
       p.x += p.dx
       p.y += p.dy
@@ -136,25 +144,25 @@ const beginBgAnimation = (ctx, canv) => {
         p.dy = -p.dy
       }
 
-      if (p.connectedPoints) {
-        p.connectedPoints = []
-      }
-
     })
 
     points.filter(p => p.connectedPoints).forEach(point => {
       if (point.mouse && !point.x && !point.y) return
       points.forEach(p => {
         if (p.mouse && !p.x && !p.y) return
-        //if (Math.sqrt(Math.pow(p.x - mouse.x, 2) + Math.pow(p.y - mouse.y, 2)) < 200) {
-        if (p !== point && Math.abs(p.x - point.x) < 150 && Math.abs(p.y - point.y) < 150 /*&& point.connectedPoints.length < 4*/) {
+        const dist = Math.sqrt(Math.pow(p.x - point.x, 2) + Math.pow(p.y - point.y, 2))
+
+        //if (p !== point && Math.abs(p.x - point.x) < pointDist && Math.abs(p.y - point.y) < pointDist /*&& point.connectedPoints.length < 4*/) {
+        if (dist < pointDist) {
           point.connectedPoints.push(p)
+          point.distances.push(dist)
         }
       })
 
-      point.connectedPoints.forEach(p => {
-        ctx.strokeStyle = p.i % 3 ? '#DCDCAA' : '#CE9178'
-        ctx.fillStyle = p.i % 3 ? '#DCDCAA' : '#CE9178'
+      point.connectedPoints.forEach((p, i) => {
+        const color = (p.i % 3 ? '#DCDCAA' : '#CE9178') + (point.distances[i] > (pointDist * 0.9) ? alphaHexInv(point.distances[i], pointDist, (pointDist * 0.9)) : '')
+        ctx.strokeStyle = color
+        ctx.fillStyle = color
 
         ctx.beginPath()
         ctx.moveTo(point.x, point.y)
@@ -168,13 +176,15 @@ const beginBgAnimation = (ctx, canv) => {
       
       ctx.strokeStyle = '#CE9178'
       ctx.fillStyle = '#CE9178'
-    
+
+    })
+
+    points.filter(p => p.connectedPoints).forEach(point => {
       if (point.connectedPoints?.length) {
         ctx.beginPath()
         ctx.arc(point.x, point.y, 3, 0, 2 * Math.PI)
         ctx.fill()
       }
-
     })
   
     requestAnimationFrame(() => bgAnimate(ctx, canv))
