@@ -82,6 +82,7 @@ const beginBgAnimation = (ctx, canv) => {
   }
 
   const pointDist = 200
+  const canvMargin = 50
 
   const populatePoints = () => [...new Array(Math.max(Math.ceil(cScale(wWidth()) * cScale(wHeight()) / 9000), 10)).fill({}).map((v,i) => ({
     x: Math.random() * cScale(canv.width),
@@ -130,19 +131,19 @@ const beginBgAnimation = (ctx, canv) => {
       p.x += p.dx
       p.y += p.dy
 
-      if (p.x < 0) {
-        p.x = 0
+      if (p.x < cScale(-canvMargin)) {
+        p.x = cScale(-canvMargin)
         p.dx = -p.dx
-      } else if (p.x > cScale(canv.width)) {
-        p.x = cScale(canv.width)
+      } else if (p.x > cScale(canv.width + canvMargin)) {
+        p.x = cScale(canv.width + canvMargin)
         p.dx = -p.dx
       }
 
-      if (p.y < 0) {
-        p.y = 0
+      if (p.y < cScale(-canvMargin)) {
+        p.y = cScale(-canvMargin)
         p.dy = -p.dy
-      } else if (p.y > cScale(canv.height)) {
-        p.y = cScale(canv.height)
+      } else if (p.y > cScale(canv.height + canvMargin)) {
+        p.y = cScale(canv.height + canvMargin)
         p.dy = -p.dy
       }
   
