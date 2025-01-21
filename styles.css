@@ -240,3 +240,8 @@ main {
   height: 100%;
   z-index: -1;
 }
+
+.pdf-icon {
+  height: 1em;
+  display: inline-block;
+}
