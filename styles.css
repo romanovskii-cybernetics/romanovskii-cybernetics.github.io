@@ -261,6 +261,9 @@ main {
   main {
     padding: 15px;
   }
+  .header-info {
+    padding-right: 15px;
+  }
 }
 #lightbox {
   top: 0;
