@@ -1,5 +1,13 @@
 'use strict'
 
+window.colors = {
+  background: window.getComputedStyle(document.documentElement).getPropertyValue('--color-background'),
+  text: window.getComputedStyle(document.documentElement).getPropertyValue('--color-text'),
+  primary: window.getComputedStyle(document.documentElement).getPropertyValue('--color-primary'),
+  secondary: window.getComputedStyle(document.documentElement).getPropertyValue('--color-secondary'),
+  headerBackground: window.getComputedStyle(document.querySelector('header')).getPropertyValue('--color-background'),
+}
+
 const app = document.querySelector('#app')
 const header = document.querySelector('header')
 const debugInfo = document.querySelector('.debug-info')
@@ -81,15 +89,17 @@ const beginBgAnimation = (ctx, canv) => {
     i: -1,
   }
 
-  const pointDist = 200
+  const pointDist = 140
   const canvMargin = 50
+  const dotSize = 1
+  const lineWidth = 0.3
 
   const populatePoints = () => [...new Array(Math.max(Math.ceil(cScale(wWidth()) * cScale(wHeight()) / 9000), 10)).fill({}).map((v,i) => ({
     x: Math.random() * cScale(canv.width),
     y: Math.random() * cScale(canv.height),
-    dx: (Math.random() * 0.5 + 0.05) * (Math.random() > 0.5 ? 1 : -1),
-    dy: (Math.random() * 0.5 + 0.05) * (Math.random() > 0.5 ? 1 : -1),
-    connectedPoints: i % 10 === 0 ? [] : undefined,
+    dx: (Math.random() * 0.5 + 0.05) * (Math.random() > 0.5 ? 1 : -1) * 0.3,
+    dy: (Math.random() * 0.5 + 0.05) * (Math.random() > 0.5 ? 1 : -1) * 0.3,
+    connectedPoints: i % 3 === 0 ? [] : undefined,
     i: i,
   })), mouse]
   let points
@@ -116,9 +126,10 @@ const beginBgAnimation = (ctx, canv) => {
   const bgAnimate = (ctx, canv) => {
 
     ctx.clearRect(0, 0, cScale(canv.width), cScale(canv.height))
+    ctx.lineWidth = lineWidth
 
     const darkLineHeight = header.getBoundingClientRect().bottom
-    ctx.fillStyle = '#1F1F1F'
+    ctx.fillStyle = colors.headerBackground
     ctx.fillRect(0, 0, cScale(canv.width), darkLineHeight)
 
     points.forEach(p => {
@@ -147,9 +158,9 @@ const beginBgAnimation = (ctx, canv) => {
         p.dy = -p.dy
       }
   
-      ctx.fillStyle = '#CE9178' + alphaHexInv(p.i / points.length, 1)
+      ctx.fillStyle = colors.secondary + alphaHexInv(p.i / points.length, 1)
       ctx.beginPath()
-      ctx.arc(p.x, p.y, 3, 0, 2 * Math.PI)
+      ctx.arc(p.x, p.y, dotSize, 0, 2 * Math.PI)
       ctx.fill()
 
     })
@@ -167,8 +178,10 @@ const beginBgAnimation = (ctx, canv) => {
         }
       })
 
+      if (point.connectedPoints.length < 3) return
+
       point.connectedPoints.forEach((p, i) => {
-        const color = (p.i % 2 ? '#DCDCAA' : '#CE9178') + (point.distances[i] > (pointDist * 0.9) ? alphaHexInv(point.distances[i], pointDist, (pointDist * 0.9)) : '')
+        const color = (p.i % 2 ? colors.primary : colors.secondary) + (point.distances[i] > (pointDist * 0.9) ? alphaHexInv(point.distances[i], pointDist, (pointDist * 0.9)) : '')
         ctx.strokeStyle = color
         ctx.fillStyle = color
 
@@ -178,19 +191,19 @@ const beginBgAnimation = (ctx, canv) => {
         ctx.stroke()
   
         ctx.beginPath()
-        ctx.arc(p.x, p.y, 3, 0, 2 * Math.PI)
+        ctx.arc(p.x, p.y, dotSize, 0, 2 * Math.PI)
         ctx.fill()
       })
       
-      ctx.strokeStyle = '#CE9178'
-      ctx.fillStyle = '#CE9178'
+      ctx.strokeStyle = colors.secondary
+      ctx.fillStyle = colors.secondary
 
     })
 
     points.filter(p => p.connectedPoints).forEach(point => {
       if (point.connectedPoints?.length) {
         ctx.beginPath()
-        ctx.arc(point.x, point.y, 3, 0, 2 * Math.PI)
+        ctx.arc(point.x, point.y, dotSize, 0, 2 * Math.PI)
         ctx.fill()
       }
     })

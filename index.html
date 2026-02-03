@@ -1,6 +1,7 @@
 <!doctype html>
 
-<html lang="en">
+<html lang="en" class="theme-iskra">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,19 +10,28 @@
     <link href="styles.css" rel="stylesheet" type="text/css" />
     <script src="marked.min.js"></script>
 </head>
+
 <body>
     <canvas id="bg-canvas"></canvas>
     <header>
         <div class="header-content">
             <a class="header-logo" href="/">
-                <img src="img/iskra.svg">
+                <svg version="1.1" shape-rendering="geometricPrecision"
+                    text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd"
+                    clip-rule="evenodd" viewBox="0 0 114.84 89.2">
+                    <!-- #571616 -->
+                    <path fill="currentColor"
+                        d="M55.82 89.2l5.46 -17.87 39.49 17.87 -28.55 -43.49 42.62 -36.91 -49.97 10.27 6.06 -19.07 -10.75 0 -11.2 35.26 30.75 -9.4 -21.86 18.8 18.03 23.59 -21.4 -12.8 -10.31 33.75 11.63 0zm-5.3 -89.2l-9.21 29 -21.02 -15.38 17.75 26.08 -27.46 25.45 35.16 -15.49 -12.09 39.54 -2.18 0 10.93 -35.79 -42.4 18.7 35.3 -32.72 -23.58 -34.64 28.48 20.85 8.13 -25.6 2.19 0z" />
+                </svg>
+
             </a>
             <div class="header-center">
                 <div class="header-title">
                     Романовский Кибернетикс
                 </div>
                 <nav class="header-menu">
-                    <span class="header-slogan">Разработка программных и электронных<br>систем под нужды вашего бизнеса</span>
+                    <span class="header-slogan">Разработка программных и электронных<br>систем под нужды вашего
+                        бизнеса</span>
                     <!--
                     <a class="menu-item" href="?about">О нас</a>
                     <a class="menu-item" href="?services">Услуги</a>
@@ -32,8 +42,8 @@
             </div>
             <div class="header-info">
                 ИП Романовский ЛО
-                <br>ИНН  745604833520
-                <br>ОГРНИП  325745600001944
+                <br>ИНН 745604833520
+                <br>ОГРНИП 325745600001944
                 <!--<br>г. Магнитогорск-->
                 <br>romanovskii.leonid@gmail.com
                 <br>+7 (906) 898-50-49
@@ -41,9 +51,9 @@
         </div>
     </header>
     <main>
-<script type="text/markdown">
+        <script type="text/markdown">
 
-## О нас
+## О компании
 
 «Романовский Кибернетикс» занимается разработкой, кастомизацией, внедрением
 и поддержкой программных и электронных систем.
@@ -147,13 +157,17 @@ romanovskii.leonid@gmail.com
 
 </script>
         <pre class="debug-info" style="color:#fff"></pre>
-        <div id="app" class="container markdown-body"></div>
+        <div id="app" class="container markdown-body">
+        </div>
     </main>
     <footer>
         &copy; Романовский Л.О., 2024
     </footer>
-    <div id="lightbox" style="display:none"><p></div>
+    <div id="lightbox" style="display:none">
+        <p>
+    </div>
 </body>
 
 <script src="script.js"></script>
+
 </html>
